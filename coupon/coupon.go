@@ -118,7 +118,6 @@ func Put(developerID, accessToken string, body *Body) (*Body, int, error) {
 	if err != nil {
 		return nil, 0, err
 	}
-	log.Println(string(b))
 	r := bytes.NewReader(b)
 	req, _ := http.NewRequest(http.MethodPut, URL, r)
 	req.Header.Set("X-IIJmio-Developer", developerID)
