@@ -15,15 +15,18 @@ import (
 // Client IIJmioクーポンスイッチAPIのクライアント
 type Client struct {
 	DeveloperID string
-	mutex       Mutex
+	mutex       *Mutex
 	settings    *Settings
 }
 
 // Mutex API、アクセストークン種別でスリープさせるもの
 type Mutex struct {
-	GetCoupon map[string]*sync.Mutex
-	PutCoupon map[string]*sync.Mutex
-	GetPacket map[string]*sync.Mutex
+	GetCoupon      map[string]*sync.Mutex
+	GetCouponMutex *sync.Mutex
+	PutCoupon      map[string]*sync.Mutex
+	PutCouponMutex *sync.Mutex
+	GetPacket      map[string]*sync.Mutex
+	GetPacketMutex *sync.Mutex
 }
 
 // Settings 設定
@@ -37,7 +40,15 @@ type Settings struct {
 func New(developerID string, settings *Settings) *Client {
 	return &Client{
 		DeveloperID: developerID,
-		settings:    settings,
+		mutex: &Mutex{
+			GetCoupon:      map[string]*sync.Mutex{},
+			GetCouponMutex: &sync.Mutex{},
+			PutCoupon:      map[string]*sync.Mutex{},
+			PutCouponMutex: &sync.Mutex{},
+			GetPacket:      map[string]*sync.Mutex{},
+			GetPacketMutex: &sync.Mutex{},
+		},
+		settings: settings,
 	}
 }
 
@@ -56,6 +67,12 @@ func (client *Client) MakeAuthorizationURL(redirectURI, state string) string {
 // GetCoupon クーポン残量照会・クーポンのON/OFF状態照会
 // ステータスコードも返す
 func (client *Client) GetCoupon(accessToken string) (*coupon.Body, int, error) {
+	client.mutex.GetCouponMutex.Lock()
+	if client.mutex.GetCoupon[accessToken] == nil {
+		client.mutex.GetCoupon[accessToken] = &sync.Mutex{}
+	}
+	client.mutex.GetCouponMutex.Unlock()
+
 	client.mutex.GetCoupon[accessToken].Lock()
 	defer func(token string) {
 		time.Sleep(client.settings.GetCouponInterval)
@@ -67,7 +84,13 @@ func (client *Client) GetCoupon(accessToken string) (*coupon.Body, int, error) {
 
 // PutCoupon クーポンのON/OFF
 // ステータスコードも返す
-func (client *Client) PutCoupon(accessToken string, hdoInfo []*coupon.HdoInfo, hduInfo []*coupon.HduInfo, hdxInfo []*coupon.HdxInfo) (*coupon.Body, int, error) {
+func (client *Client) PutCoupon(accessToken string, couponInfo []*coupon.CouponInfo) (*coupon.Body, int, error) {
+	client.mutex.PutCouponMutex.Lock()
+	if client.mutex.PutCoupon[accessToken] == nil {
+		client.mutex.PutCoupon[accessToken] = &sync.Mutex{}
+	}
+	client.mutex.PutCouponMutex.Unlock()
+
 	client.mutex.PutCoupon[accessToken].Lock()
 	defer func(token string) {
 		time.Sleep(client.settings.PutCouponInterval)
@@ -78,13 +101,7 @@ func (client *Client) PutCoupon(accessToken string, hdoInfo []*coupon.HdoInfo, h
 		client.DeveloperID,
 		accessToken,
 		&coupon.Body{
-			CouponInfo: []*coupon.CouponInfo{
-				&coupon.CouponInfo{
-					HdoInfo: hdoInfo,
-					HduInfo: hduInfo,
-					HdxInfo: hdxInfo,
-				},
-			},
+			CouponInfo: couponInfo,
 		},
 	)
 }
@@ -92,6 +109,12 @@ func (client *Client) PutCoupon(accessToken string, hdoInfo []*coupon.HdoInfo, h
 // GetPacket データ利用量照会
 // ステータスコードも返す
 func (client *Client) GetPacket(accessToken string) (*packet.Body, int, error) {
+	client.mutex.GetPacketMutex.Lock()
+	if client.mutex.GetPacket[accessToken] == nil {
+		client.mutex.GetPacket[accessToken] = &sync.Mutex{}
+	}
+	client.mutex.GetPacketMutex.Unlock()
+
 	client.mutex.GetPacket[accessToken].Lock()
 	defer func(token string) {
 		time.Sleep(client.settings.GetPacketInterval)
