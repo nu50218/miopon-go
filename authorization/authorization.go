@@ -48,6 +48,7 @@ type SuccessResponse struct {
 }
 
 func ParseSuccessResponse(uri string) (*SuccessResponse, error) {
+	var a int
 	u, err := url.Parse(uri)
 	if err != nil {
 		return nil, err
