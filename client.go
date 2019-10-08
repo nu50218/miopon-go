@@ -35,7 +35,6 @@ type Settings struct {
 
 // New 新しいClientを作成して返す
 func New(developerID string, settings *Settings) *Client {
-	var a int
 	return &Client{
 		DeveloperID: developerID,
 		settings:    settings,
