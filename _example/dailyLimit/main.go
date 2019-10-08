@@ -16,6 +16,8 @@ type Settings struct {
 	IntervalMinute int64    `json:"interval_minute"`
 }
 
+const settingsFilename = "settings.json"
+
 func main() {
 	var isInit bool
 	flag.BoolVar(&isInit, "init", false, "Make settings.json in the working directory")
@@ -44,7 +46,7 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		if err := ioutil.WriteFile("settings.json", b, 0644); err != nil {
+		if err := ioutil.WriteFile(settingsFilename, b, 0644); err != nil {
 			log.Fatalln(err)
 		}
 
