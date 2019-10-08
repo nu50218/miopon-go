@@ -152,13 +152,13 @@ func check(accessToken string, client *miopon.Client, volumeLimit int) {
 		log.Println("switched off:")
 		for _, c := range couponInfo {
 			for _, hdoInfo := range c.HdoInfo {
-				log.Printf("\t%s", hdoInfo.HdoServiceCode)
+				log.Printf("\t%s\n", hdoInfo.HdoServiceCode)
 			}
 			for _, hduInfo := range c.HduInfo {
-				log.Printf("\t%s", hduInfo.HduServiceCode)
+				log.Printf("\t%s\n", hduInfo.HduServiceCode)
 			}
 			for _, hdxInfo := range c.HdxInfo {
-				log.Printf("\t%s", hdxInfo.HdxServiceCode)
+				log.Printf("\t%s\n", hdxInfo.HdxServiceCode)
 			}
 		}
 	}
