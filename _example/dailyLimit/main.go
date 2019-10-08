@@ -41,7 +41,10 @@ func main() {
 			IntervalMinute: 1,
 		}
 		b, err := json.MarshalIndent(settings, "", "  ")
-		if err = ioutil.WriteFile("settings.json", b, 0644); err != nil {
+		if err != nil {
+			log.Fatalln(err)
+		}
+		if err := ioutil.WriteFile("settings.json", b, 0644); err != nil {
 			log.Fatalln(err)
 		}
 
