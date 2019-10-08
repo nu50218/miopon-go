@@ -23,7 +23,7 @@ type PacketLogInfo struct {
 
 type HdoInfo struct {
 	HdoServiceCode string       `json:"hdoServiceCode,omitempty"`
-	PacketLog      []*PacketLog `json:"packet_log,omitempty"`
+	PacketLog      []*PacketLog `json:"packetLog,omitempty"`
 }
 
 type HduInfo struct {
