@@ -9,11 +9,11 @@ import (
 const URL = "https://api.iijmio.jp/mobile/d/v2/log/packet/"
 
 type Body struct {
-	ReturnCode    string           `json:"returnCode,omitempty"`
-	PacketLogInfo []*PacketLogInfo `json:"packetLogInfo,omitempty"`
+	ReturnCode    string     `json:"returnCode,omitempty"`
+	PacketLogInfo []*LogInfo `json:"packetLogInfo,omitempty"`
 }
 
-type PacketLogInfo struct {
+type LogInfo struct {
 	HddServiceCode string     `json:"hddServiceCode,omitempty"`
 	Plan           string     `json:"plan,omitempty"`
 	HdoInfo        []*HdoInfo `json:"hdoInfo,omitempty"`
@@ -22,21 +22,21 @@ type PacketLogInfo struct {
 }
 
 type HdoInfo struct {
-	HdoServiceCode string       `json:"hdoServiceCode,omitempty"`
-	PacketLog      []*PacketLog `json:"packetLog,omitempty"`
+	HdoServiceCode string `json:"hdoServiceCode,omitempty"`
+	PacketLog      []*Log `json:"packetLog,omitempty"`
 }
 
 type HduInfo struct {
-	HduServiceCode string       `json:"hduServiceCode,omitempty"`
-	PacketLog      []*PacketLog `json:"packetLog,omitempty"`
+	HduServiceCode string `json:"hduServiceCode,omitempty"`
+	PacketLog      []*Log `json:"packetLog,omitempty"`
 }
 
 type HdxInfo struct {
-	HdxServiceCode string       `json:"hdxServiceCode,omitempty"`
-	PacketLog      []*PacketLog `json:"packetLog,omitempty"`
+	HdxServiceCode string `json:"hdxServiceCode,omitempty"`
+	PacketLog      []*Log `json:"packetLog,omitempty"`
 }
 
-type PacketLog struct {
+type Log struct {
 	Date          string `json:"date,omitempty"`
 	WithCoupon    int    `json:"withCoupon,omitempty"`
 	WithoutCoupon int    `json:"withoutCoupon,omitempty"`
