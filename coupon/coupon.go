@@ -10,11 +10,11 @@ import (
 const URL = "https://api.iijmio.jp/mobile/d/v2/coupon/"
 
 type Body struct {
-	ReturnCode string        `json:"returnCode,omitempty"`
-	CouponInfo []*CouponInfo `json:"couponInfo,omitempty"`
+	ReturnCode string  `json:"returnCode,omitempty"`
+	CouponInfo []*Info `json:"couponInfo,omitempty"`
 }
 
-type CouponInfo struct {
+type Info struct {
 	HddServiceCode string     `json:"hddServiceCode,omitempty"`
 	Plan           Plan       `json:"plan,omitempty"`
 	HdoInfo        []*HdoInfo `json:"hdoInfo,omitempty"`

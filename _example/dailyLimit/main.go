@@ -96,9 +96,9 @@ func check(accessToken string, client *miopon.Client, volumeLimit int) {
 	}
 	log.Println("got packet")
 
-	couponInfo := []*coupon.CouponInfo{}
+	couponInfo := []*coupon.Info{}
 	for _, packetLogInfo := range body.PacketLogInfo {
-		c := coupon.CouponInfo{}
+		c := coupon.Info{}
 		for _, hdoInfo := range packetLogInfo.HdoInfo {
 			if len(hdoInfo.PacketLog) == 0 {
 				continue

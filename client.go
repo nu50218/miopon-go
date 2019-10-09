@@ -86,7 +86,7 @@ func (client *Client) GetCoupon(accessToken string) (*coupon.Body, int, error) {
 
 // PutCoupon クーポンのON/OFF
 // ステータスコードも返す
-func (client *Client) PutCoupon(accessToken string, couponInfo []*coupon.CouponInfo) (*coupon.Body, int, error) {
+func (client *Client) PutCoupon(accessToken string, couponInfo []*coupon.Info) (*coupon.Body, int, error) {
 	client.mutex.PutCouponMutex.Lock()
 	if client.mutex.PutCoupon[accessToken] == nil {
 		client.mutex.PutCoupon[accessToken] = &sync.Mutex{}
