@@ -75,8 +75,10 @@ func (client *Client) GetCoupon(accessToken string) (*coupon.Body, int, error) {
 
 	client.mutex.GetCoupon[accessToken].Lock()
 	defer func(token string) {
-		time.Sleep(client.settings.GetCouponInterval)
-		client.mutex.GetCoupon[token].Unlock()
+		go func(token string) {
+			time.Sleep(client.settings.GetCouponInterval)
+			client.mutex.GetCoupon[token].Unlock()
+		}(token)
 	}(accessToken)
 
 	return coupon.Get(client.DeveloperID, accessToken)
@@ -93,8 +95,10 @@ func (client *Client) PutCoupon(accessToken string, couponInfo []*coupon.CouponI
 
 	client.mutex.PutCoupon[accessToken].Lock()
 	defer func(token string) {
-		time.Sleep(client.settings.PutCouponInterval)
-		client.mutex.PutCoupon[token].Unlock()
+		go func(token string) {
+			time.Sleep(client.settings.PutCouponInterval)
+			client.mutex.PutCoupon[token].Unlock()
+		}(token)
 	}(accessToken)
 
 	return coupon.Put(
@@ -117,8 +121,10 @@ func (client *Client) GetPacket(accessToken string) (*packet.Body, int, error) {
 
 	client.mutex.GetPacket[accessToken].Lock()
 	defer func(token string) {
-		time.Sleep(client.settings.GetPacketInterval)
-		client.mutex.GetPacket[token].Unlock()
+		go func(token string) {
+			time.Sleep(client.settings.GetPacketInterval)
+			client.mutex.GetPacket[token].Unlock()
+		}(token)
 	}(accessToken)
 
 	return packet.Get(client.DeveloperID, accessToken)
