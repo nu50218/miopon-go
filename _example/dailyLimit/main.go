@@ -106,7 +106,7 @@ func check(accessToken string, client *miopon.Client, volumeLimit int) {
 			if hdoInfo.PacketLog[len(hdoInfo.PacketLog)-1].WithCoupon > volumeLimit {
 				c.HdoInfo = append(c.HdoInfo, &coupon.HdoInfo{
 					HdoServiceCode: hdoInfo.HdoServiceCode,
-					CouponUse:      true,
+					CouponUse:      false,
 				})
 			}
 		}
@@ -118,7 +118,7 @@ func check(accessToken string, client *miopon.Client, volumeLimit int) {
 			if hduInfo.PacketLog[len(hduInfo.PacketLog)-1].WithCoupon > volumeLimit {
 				c.HduInfo = append(c.HduInfo, &coupon.HduInfo{
 					HduServiceCode: hduInfo.HduServiceCode,
-					CouponUse:      true,
+					CouponUse:      false,
 				})
 			}
 		}
@@ -130,7 +130,7 @@ func check(accessToken string, client *miopon.Client, volumeLimit int) {
 			if hdxInfo.PacketLog[len(hdxInfo.PacketLog)-1].WithCoupon > volumeLimit {
 				c.HdxInfo = append(c.HdxInfo, &coupon.HdxInfo{
 					HdxServiceCode: hdxInfo.HdxServiceCode,
-					CouponUse:      true,
+					CouponUse:      false,
 				})
 			}
 		}
